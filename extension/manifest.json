@@ -1,0 +1,20 @@
+{
+  "manifest_version": 3,
+  "name": "Konfido",
+  "version": "1.0.0",
+  "description": "Odešli judikát nebo vybraný text do Konfida.",
+  "permissions": ["activeTab", "contextMenus", "storage", "notifications", "scripting"],
+  "host_permissions": ["<all_urls>"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "128": "icon128.png"
+    }
+  },
+  "icons": {
+    "128": "icon128.png"
+  }
+}
