@@ -57,26 +57,35 @@ npm install
 3. Vytvoř nový App Password s názvem "Konfido"
 4. Zkopíruj 16-místný kód (použiješ v dalším kroku)
 
-### 3. Deploy backendu na Vercel
+### 3. Propojení s Vercelem přes GitHub
 
-```bash
-npx vercel --prod
-```
+Nejjednodušší způsob — Vercel sleduje GitHub a deployuje automaticky při každém pushnutí.
 
-Po deployi nastav environment variables (Vercel Dashboard → Settings → Environment Variables):
+1. Přihlas se na [vercel.com](https://vercel.com) a klikni **Add New Project**
+2. Klikni **Import Git Repository** a vyber `konfidocz/chrome_extension`
+3. Nastavení nechej výchozí, klikni **Deploy**
+4. Vercel přiřadí URL ve tvaru `chrome-extension-xxx.vercel.app`
+
+Od teď každý `git push` do `main` spustí automatický redeploy.
+
+### 4. Nastavení credentials ve Vercelu
+
+Po prvním deployi přejdi do **Vercel Dashboard → tvůj projekt → Settings → Environment Variables** a přidej:
 
 | Klíč | Hodnota |
 |------|---------|
 | `GMAIL_USER` | Gmail adresa odesílatele (např. `vitpater0@gmail.com`) |
-| `GMAIL_APP_PASSWORD` | 16-místný App Password z předchozího kroku |
+| `GMAIL_APP_PASSWORD` | 16-místný App Password z kroku 2 (bez mezer) |
 | `RECIPIENT` | E-mail kam přicházejí dokumenty (např. `vit.pater@gnj.cz`) |
 
-Po přidání env vars znovu deployuj:
+Po uložení env vars klikni **Redeploy** (nebo pushni prázdný commit), aby se nové hodnoty načetly:
+
 ```bash
-npx vercel --prod
+git commit --allow-empty -m "Redeploy po nastavení env vars"
+git push
 ```
 
-### 4. Aktualizace URL v extension
+### 5. Aktualizace URL v extension
 
 V souboru `extension/background.js` na řádku 1 uprav URL na svůj Vercel deployment:
 
@@ -84,7 +93,7 @@ V souboru `extension/background.js` na řádku 1 uprav URL na svůj Vercel deplo
 const API_URL = "https://konfido-extension.vercel.app/api/send";
 ```
 
-### 5. Načtení extension do Chrome
+### 6. Načtení extension do Chrome
 
 1. Otevři Chrome a přejdi na `chrome://extensions`
 2. Zapni **Developer mode** (přepínač vpravo nahoře)
